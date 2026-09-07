@@ -56,7 +56,29 @@ PowakaData currently provides historical datasets across:
 Free samples are available so researchers can inspect file structure, columns, timestamps, and data format before purchasing a complete dataset.
 
 **Website:** https://powakadata.com/
+## Featured Sample — S&P 500 Point-in-Time Membership
 
+Explore a real pre-purchase sample of the PowakaData S&P 500 Point-in-Time Historical Membership Dataset.
+
+- [Inspect the S&P 500 Point-in-Time sample](samples/sp500-point-in-time/)
+- [View the interval sample](samples/sp500-point-in-time/INTERVAL_SAMPLE.csv)
+- [View constituent events](samples/sp500-point-in-time/EVENT_SAMPLE.csv)
+- [Read the interval contract](samples/sp500-point-in-time/INTERVAL_CONTRACT.json)
+- [Read the methodology](samples/sp500-point-in-time/METHODOLOGY.txt)
+- [Run the Python reconstruction example](examples/reconstruct_sp500_universe.py)
+
+### Why interval semantics matter
+
+On **2026-08-18**, the sample contains a real S&P 500 membership transition:
+
+- **AVB** is no longer active.
+- **RDDT** becomes active.
+
+An `EXACT` `effective_to` boundary is exclusive. Treating every interval end as inclusive would incorrectly keep AVB in the historical universe.
+
+The included Python example implements the interval contract and verifies this boundary automatically.
+
+**[Browse the full PowakaData catalog →](https://powakadata.com/)**
 ## Repository Structure
 
 ```text
