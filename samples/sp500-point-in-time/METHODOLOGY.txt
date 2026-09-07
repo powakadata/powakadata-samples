@@ -1,0 +1,30 @@
+POWAKADATA S&P 500 POINT-IN-TIME MEMBERSHIP — R3 INTERVAL CONTRACT
+
+SCOPE
+Coverage is 2016-08-01 through 2026-08-18. R3 is a documentation/interval-contract correction of PIT-SP500-20260818-R2. Membership events, intervals, security identities, and provenance facts are unchanged.
+
+DETERMINISTIC MEMBERSHIP PREDICATE
+effective_from is inclusive for every supported start_semantics value.
+
+active(D, row):
+    if D < coverage_start or D > coverage_end: return OUTSIDE_WINDOW
+    if row.start_semantics not in {EXACT, OBSERVED, LEFT_CENSORED, WINDOW_CENSORED}: ERROR
+    if row.end_semantics not in {EXACT, RIGHT_CENSORED, WINDOW_CENSORED}: ERROR
+    if D < row.effective_from: return false
+    if row.end_semantics == EXACT: return D < row.effective_to
+    if row.end_semantics in {RIGHT_CENSORED, WINDOW_CENSORED}:
+        return D <= min(row.effective_to, coverage_end)
+
+No default branch exists: unknown or malformed semantics must fail closed.
+
+START SEMANTICS
+EXACT means membership begins on effective_from. OBSERVED means the security is directly observed entering/present from effective_from; it is active on that date. LEFT_CENSORED means membership is already present at the inclusive coverage opening and its earlier true start is outside/unknown. WINDOW_CENSORED is the legacy spelling used by this release for that same left-window condition: present on the inclusive coverage opening, without asserting that it joined then. Start semantics describe knowledge of the left boundary; none makes effective_from exclusive.
+
+END SEMANTICS
+EXACT means effective_to is the first absent date and is EXCLUSIVE: [effective_from, effective_to). RIGHT_CENSORED means no removal is asserted and effective_to is the last observed included date at the commercial coverage boundary: [effective_from, effective_to]. WINDOW_CENSORED is the legacy end spelling supported for prior same-schema artifacts and has the same inclusive coverage-boundary behavior as RIGHT_CENSORED. R3 contains EXACT and RIGHT_CENSORED ends; WINDOW_CENSORED remains an explicitly supported compatibility value.
+
+EVENT RELATIONSHIP AND SAME-DAY TRANSITIONS
+PRIOR_TO_OPEN events apply before the regular session on effective_date. Therefore an ADD is present on D, a REMOVE is absent on D, and TICKER_CHANGE replaces the old label with the successor label on D. DATE_ONLY applies the same daily state without an intraday-time claim. EXACT event boundaries preserve a supported exact boundary and use the same daily result. On a same-day remove/add or ticker transition, exact predecessor intervals end exclusively on D and successor intervals start inclusively on D; there is no double count caused by the boundary itself. Tickers are time-varying labels, not permanent identities. A ticker change ends the predecessor label and starts the successor label on the same security_id unless the validated identity contract explicitly establishes a distinct security.
+
+COVERAGE END
+At 2026-08-18, RIGHT_CENSORED rows are included and EXACT rows ending 2026-08-18 are excluded. The correct state has 503 rows and 503 unique security_id values: AVB is absent and RDDT is present. Treating every effective_to as inclusive is invalid and would add obsolete AVB as a 504th row.
