@@ -1,78 +1,73 @@
-# S&P 500 Point-in-Time Membership Sample
+# PowakaData — Market Data Samples
 
-This directory contains a **pre-purchase sample** from the PowakaData S&P 500 Point-in-Time Historical Membership Dataset.
+**Historical market data for backtesting and quantitative research.**
 
-Release represented: **PIT-SP500-20260818-R3**
+PowakaData provides inspectable historical datasets for quantitative researchers, systematic traders, developers, and anyone who wants to verify the data behind a backtest.
 
-Full commercial coverage: **2016-08-01 through 2026-08-18**
+This repository contains **free data samples and reproducible examples** for selected PowakaData datasets.
 
-The sample is intentionally incomplete. It is provided so researchers can inspect the schema, interval semantics, event structure, and reconstruction logic before purchasing the full dataset.
+## Why PowakaData?
 
-## Files
+Backtests are only as reliable as the data and assumptions behind them.
 
-- `INTERVAL_SAMPLE.csv` — selected membership intervals
-- `EVENT_SAMPLE.csv` — selected constituent and ticker-change events
-- `INTERVAL_CONTRACT.json` — machine-readable interval contract
-- `METHODOLOGY.txt` — authoritative methodology for this release
+PowakaData focuses on research-ready datasets that can be inspected directly rather than hidden behind a proprietary API.
 
-## Critical interval semantics
+- Inspectable files
+- Free samples before purchase
+- Historical equities, futures, forex, crypto, commodities and more
+- Point-in-time S&P 500 and Nasdaq-100 membership data
+- Data designed for backtesting and quantitative research
+- One-time purchase — no subscription required
 
-`effective_from` is inclusive for every supported start semantics value.
+## Point-in-Time Equity Research
 
-For the end boundary:
+A common source of bias in historical equity research is using today's index constituents to test strategies in the past.
 
-- `end_semantics = EXACT` means `effective_to` is **exclusive**
-- `end_semantics = RIGHT_CENSORED` means `effective_to` is **inclusive** at the commercial coverage boundary
-- `end_semantics = WINDOW_CENSORED` is supported for legacy compatibility and is inclusive at the coverage boundary
-- unknown semantics must **fail closed**
+For example, a 2018 S&P 500 backtest built from today's membership can implicitly use information that was not available in 2018.
 
-In other words, do **not** apply this rule to every row:
+Point-in-time membership data allows the research universe to be reconstructed using the constituents applicable to each historical period.
 
-```python
-effective_from <= D <= effective_to
-```
+This repository includes examples showing how to:
 
-That naive predicate is wrong for `EXACT` intervals.
+- load point-in-time membership data;
+- reconstruct a historical index universe;
+- avoid using future membership information;
+- join membership data to historical market data;
+- build reproducible research inputs.
 
-## Concrete boundary example
+## Available Data
 
-The sample includes the 2026-08-18 S&P 500 transition where:
+PowakaData currently provides historical datasets across:
 
-- `AVB` ends with `end_semantics = EXACT`
-- `RDDT` begins on 2026-08-18
-- therefore `AVB` is absent on 2026-08-18
-- and `RDDT` is present on 2026-08-18
+- US equities
+- UK / LSE equities
+- S&P 500 point-in-time membership
+- Nasdaq-100 point-in-time membership
+- Futures
+- Forex
+- Crypto
+- Commodities
+- Indices
+- ETFs
+- Macro and economic data
 
-The full commercial release has **503 unique securities** in the 2026-08-18 closing state. Treating every `effective_to` as inclusive would incorrectly retain AVB and produce a 504th row.
+## Free Samples
 
-## Security identity
+Free samples are available so researchers can inspect file structure, columns, timestamps, and data format before purchasing a complete dataset.
 
-`security_id` identifies a supported security lineage.
+**Website:** https://powakadata.com/
 
-Ticker symbols are time-varying labels and should not be treated as permanent security identifiers. A ticker change can end one symbol interval and begin another on the same `security_id`.
+## Repository Structure
 
-## Example code
-
-See:
-
-`../../examples/reconstruct_sp500_universe.py`
-
-The example:
-
-- loads the interval contract;
-- validates supported interval semantics;
-- fails closed on unknown semantics;
-- reconstructs active sample rows for a requested date;
-- verifies the AVB/RDDT and EA/FERG boundary examples included in this sample.
-
-Because this repository contains only a **selected sample**, the script does not attempt to reproduce the complete 503-security index state from the sample files alone.
-
-## Full dataset
-
-The complete PowakaData S&P 500 Point-in-Time Historical Membership Dataset is available at:
-
-https://powakadata.com/
-
-**Price:** USD 49 one-time
-
-No subscription is required.
+```text
+powakadata-samples/
+├── README.md
+├── examples/
+│   └── reconstruct_sp500_universe.py
+└── samples/
+    └── sp500-point-in-time/
+        ├── README.md
+        ├── INTERVAL_SAMPLE.csv
+        ├── EVENT_SAMPLE.csv
+        ├── INTERVAL_CONTRACT.json
+        └── METHODOLOGY.txt
