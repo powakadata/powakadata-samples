@@ -2,83 +2,50 @@
 
 **Historical market data for backtesting and quantitative research.**
 
-PowakaData provides inspectable historical datasets for quantitative researchers, systematic traders, developers, and anyone who wants to verify the data behind a backtest.
+This repository contains free samples, methodology notes, and reproducible examples for selected PowakaData research datasets.
 
-This repository contains **free data samples and reproducible examples** for selected PowakaData datasets.
+## Research Data Suite
 
-## Why PowakaData?
+### S&P 500 Point-in-Time Membership + Canonical D1
+Historical membership intervals for reconstructing the S&P 500 universe as it existed through time, with a documented point-in-time research contract.
 
-Backtests are only as reliable as the data and assumptions behind them.
+- [Free S&P 500 PIT sample](samples/sp500-point-in-time/)
+- [Python universe reconstruction example](examples/reconstruct_sp500_universe.py)
+- [Technical guide](https://powakadata.com/sp500-historical-constituents-backtesting.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
+- [Dataset page](https://powakadata.com/sp500-point-in-time-membership.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
 
-PowakaData focuses on research-ready datasets that can be inspected directly rather than hidden behind a proprietary API.
+### Nasdaq-100 Point-in-Time Membership + Canonical D1
+Historical Nasdaq-100 membership and canonical daily research data for point-in-time universe construction.
 
-- Inspectable files
-- Free samples before purchase
-- Historical equities, futures, forex, crypto, commodities and more
-- Point-in-time S&P 500 and Nasdaq-100 membership data
-- Data designed for backtesting and quantitative research
-- One-time purchase — no subscription required
+- [Technical guide](https://powakadata.com/nasdaq100-historical-constituents-backtesting.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
+- [Dataset page](https://powakadata.com/nasdaq100-point-in-time-membership.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
+- Public sample: **not yet published in this repository**. No synthetic or unapproved provider data is substituted.
 
-## Point-in-Time Equity Research
+### US Corporate Actions Historical Data
+Historical US dividend and stock split provider records for research workflows that need explicit event-date, adjustment, coverage, and provenance semantics.
 
-A common source of bias in historical equity research is using today's index constituents to test strategies in the past.
+- [Corporate actions backtesting guide](https://powakadata.com/us-corporate-actions-backtesting.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
+- [Dataset page](https://powakadata.com/us-corporate-actions-historical-data.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
+- Public sample: **not yet published in this repository**. No synthetic or unapproved provider data is substituted.
 
-For example, a 2018 S&P 500 backtest built from today's membership can implicitly use information that was not available in 2018.
+## Why point-in-time data matters
 
-Point-in-time membership data allows the research universe to be reconstructed using the constituents applicable to each historical period.
+Using today's index constituents to backtest the past can introduce survivorship and universe-selection bias. A point-in-time membership contract separates historical eligibility from what is known today.
 
-This repository includes examples showing how to:
+The included S&P 500 sample demonstrates interval semantics around a real membership transition and includes the contract needed to interpret interval boundaries correctly.
 
-- load point-in-time membership data;
-- reconstruct a historical index universe;
-- avoid using future membership information;
-- join membership data to historical market data;
-- build reproducible research inputs.
+## Corporate actions require a separate research contract
+
+Historical dividends and stock splits are not automatically point-in-time. Event date, information availability, historical security identity, and price-adjustment semantics are separate questions. Applying an action to a series that already embeds the adjustment can also double count the transformation.
+
+The Corporate Actions guide documents these issues without claiming that the historical provider-record product is point-in-time or survivorship-safe.
 
 ## Available Data
 
-PowakaData currently provides historical datasets across:
+PowakaData also provides historical datasets across US equities, UK/LSE equities, futures, forex, crypto, commodities, indices, ETFs, and macro/economic data.
 
-- US equities
-- UK / LSE equities
-- S&P 500 point-in-time membership
-- Nasdaq-100 point-in-time membership
-- Futures
-- Forex
-- Crypto
-- Commodities
-- Indices
-- ETFs
-- Macro and economic data
+[Browse the PowakaData catalog](https://powakadata.com/?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
 
-## Free Samples
-
-Free samples are available so researchers can inspect file structure, columns, timestamps, and data format before purchasing a complete dataset.
-
-**Website:** https://powakadata.com/
-## Featured Sample — S&P 500 Point-in-Time Membership
-
-Explore a real pre-purchase sample of the PowakaData S&P 500 Point-in-Time Historical Membership Dataset.
-
-- [Inspect the S&P 500 Point-in-Time sample](samples/sp500-point-in-time/)
-- [View the interval sample](samples/sp500-point-in-time/INTERVAL_SAMPLE.csv)
-- [View constituent events](samples/sp500-point-in-time/EVENT_SAMPLE.csv)
-- [Read the interval contract](samples/sp500-point-in-time/INTERVAL_CONTRACT.json)
-- [Read the methodology](samples/sp500-point-in-time/METHODOLOGY.txt)
-- [Run the Python reconstruction example](examples/reconstruct_sp500_universe.py)
-
-### Why interval semantics matter
-
-On **2026-08-18**, the sample contains a real S&P 500 membership transition:
-
-- **AVB** is no longer active.
-- **RDDT** becomes active.
-
-An `EXACT` `effective_to` boundary is exclusive. Treating every interval end as inclusive would incorrectly keep AVB in the historical universe.
-
-The included Python example implements the interval contract and verifies this boundary automatically.
-
-**[Browse the full PowakaData catalog →](https://powakadata.com/)**
 ## Repository Structure
 
 ```text
@@ -93,3 +60,8 @@ powakadata-samples/
         ├── EVENT_SAMPLE.csv
         ├── INTERVAL_CONTRACT.json
         └── METHODOLOGY.txt
+```
+
+## Sample policy
+
+Only approved public samples are committed here. Full customer packages and unapproved provider records are not published. Where a public sample has not yet been approved, this repository links to the methodology/technical guide instead of fabricating example rows.
