@@ -17,9 +17,10 @@ Historical membership intervals for reconstructing the S&P 500 universe as it ex
 ### Nasdaq-100 Point-in-Time Membership + Canonical D1
 Historical Nasdaq-100 membership and canonical daily research data for point-in-time universe construction.
 
+- [Free Nasdaq-100 PIT sample](samples/nasdaq100-point-in-time/)
+- [Python universe reconstruction example](examples/reconstruct_nasdaq100_universe.py)
 - [Technical guide](https://powakadata.com/nasdaq100-historical-constituents-backtesting.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
 - [Dataset page](https://powakadata.com/nasdaq100-point-in-time-membership.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
-- Public sample: **not yet published in this repository**. No synthetic or unapproved provider data is substituted.
 
 ### US Corporate Actions Historical Data
 Historical US dividend and stock split provider records for research workflows that need explicit event-date, adjustment, coverage, and provenance semantics.
@@ -52,8 +53,13 @@ PowakaData also provides historical datasets across US equities, UK/LSE equities
 powakadata-samples/
 ├── README.md
 ├── examples/
-│   └── reconstruct_sp500_universe.py
+│   ├── reconstruct_sp500_universe.py
+│   └── reconstruct_nasdaq100_universe.py
 └── samples/
+    ├── nasdaq100-point-in-time/
+    │   ├── README.md
+    │   ├── INTERVAL_SAMPLE.csv
+    │   └── EVENT_SAMPLE.csv
     └── sp500-point-in-time/
         ├── README.md
         ├── INTERVAL_SAMPLE.csv
