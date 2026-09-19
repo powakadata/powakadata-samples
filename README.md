@@ -25,9 +25,11 @@ Historical Nasdaq-100 membership and canonical daily research data for point-in-
 ### US Corporate Actions Historical Data
 Historical US dividend and stock split provider records for research workflows that need explicit event-date, adjustment, coverage, and provenance semantics.
 
+- [Public methodology & schema resource](samples/us-corporate-actions/)
+- [Python research-contract example](examples/corporate_actions_research_contract.py)
 - [Corporate actions backtesting guide](https://powakadata.com/us-corporate-actions-backtesting.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
 - [Dataset page](https://powakadata.com/us-corporate-actions-historical-data.html?utm_source=github&utm_medium=referral&utm_campaign=research_suite)
-- Public sample: **not yet published in this repository**. No synthetic or unapproved provider data is substituted.
+- Provider-row sample: **not published** pending explicit redistribution/promotion authorization.
 
 ## Why point-in-time data matters
 
@@ -54,18 +56,23 @@ powakadata-samples/
 ├── README.md
 ├── examples/
 │   ├── reconstruct_sp500_universe.py
-│   └── reconstruct_nasdaq100_universe.py
+│   ├── reconstruct_nasdaq100_universe.py
+│   └── corporate_actions_research_contract.py
 └── samples/
     ├── nasdaq100-point-in-time/
     │   ├── README.md
     │   ├── INTERVAL_SAMPLE.csv
     │   └── EVENT_SAMPLE.csv
-    └── sp500-point-in-time/
+    ├── sp500-point-in-time/
+    │   ├── README.md
+    │   ├── INTERVAL_SAMPLE.csv
+    │   ├── EVENT_SAMPLE.csv
+    │   ├── INTERVAL_CONTRACT.json
+    │   └── METHODOLOGY.txt
+    └── us-corporate-actions/
         ├── README.md
-        ├── INTERVAL_SAMPLE.csv
-        ├── EVENT_SAMPLE.csv
-        ├── INTERVAL_CONTRACT.json
-        └── METHODOLOGY.txt
+        ├── SCHEMA.md
+        └── EXAMPLE_WORKFLOW.md
 ```
 
 ## Sample policy
